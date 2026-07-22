@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Zap, Globe, Shield, Clock } from "lucide-react";
 import { CheckoutModal } from "@/components/checkout/checkout-modal";
+import { DemoButton } from "./demo-button";
 
 export const metadata: Metadata = {
   title: "ArcFlow Pay — Cross-Chain USDC Checkout",
@@ -211,27 +212,5 @@ export default function HomePage() {
       {/* Checkout Modal (rendered globally) */}
       <CheckoutModal />
     </>
-  );
-}
-
-// Client component just for demo button interaction
-function DemoButton({
-  session,
-}: {
-  session: typeof DEMO_SESSION;
-}) {
-  "use client";
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { useCheckout } = require("@/hooks/use-checkout");
-  const { startCheckout } = useCheckout();
-
-  return (
-    <button
-      id="demo-checkout-btn"
-      onClick={() => startCheckout(session)}
-      className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-hairline)] bg-white px-8 py-3.5 text-base font-semibold text-[var(--color-ink)] transition-colors hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-soft)]"
-    >
-      Try Demo Checkout
-    </button>
   );
 }

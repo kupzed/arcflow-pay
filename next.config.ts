@@ -64,6 +64,12 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
   webpack: (config, { dev }) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      "@react-native-async-storage/async-storage": false,
+      "pino-pretty": false,
+    };
+
     if (!dev) {
       config.optimization = {
         ...config.optimization,
