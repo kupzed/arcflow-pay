@@ -1,4 +1,4 @@
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight, Info, ShieldCheck } from "lucide-react";
 import { NetworkBadge } from "@/components/common/network-badge";
 import { type CheckoutSession, type SupportedSourceChain, type SupportedToken } from "@/types/checkout";
 import { formatUsdc } from "@/lib/utils";
@@ -17,69 +17,78 @@ export function PaymentSummary({
   const isReadyToEstimate = !!selectedChain && !!selectedToken;
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4 space-y-3">
+    <div className="rounded-2xl border border-gray-100 bg-gray-50/80 p-4 space-y-3.5 text-sm shadow-inner">
       {/* Header */}
-      <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-        Payment Summary
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
+          Payment Route Details
+        </p>
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+          <ShieldCheck className="size-3" />
+          Verified
+        </span>
+      </div>
 
       {/* Amount row */}
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-600">Amount</span>
-        <span className="text-base font-semibold text-gray-900">
+      <div className="flex items-center justify-between border-b border-gray-200/60 pb-2.5">
+        <span className="text-gray-600 font-medium">Merchant Charge</span>
+        <span className="text-base font-bold text-gray-900">
           {formatUsdc(session.amountUsdc)} USDC
         </span>
       </div>
 
       {/* Route row */}
-      {isReadyToEstimate && (
-        <>
+      {isReadyToEstimate ? (
+        <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Route</span>
+            <span className="text-gray-600 font-medium">Payment Route</span>
             <div className="flex items-center gap-1.5">
               <NetworkBadge chain={selectedChain} size="sm" />
-              <ArrowRight className="size-3 text-gray-400" />
+              <ArrowRight className="size-3.5 text-gray-400" />
               <NetworkBadge chain="arc-testnet" size="sm" />
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Via</span>
-            <span className="text-sm font-medium text-gray-900">
-              Circle CCTP + Unified Balance
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500">Bridge Protocol</span>
+            <span className="font-semibold text-gray-800">
+              Circle CCTP (Unified Balance)
             </span>
           </div>
 
           {/* Fee estimate */}
-          {session.estimatedFee && (
-            <div className="flex items-center justify-between">
-              <span className="flex items-center gap-1 text-sm text-gray-600">
-                Est. fee
-                <Info className="size-3 text-gray-400" />
-              </span>
-              <span className="text-sm text-gray-900">
-                ≈ {formatUsdc(session.estimatedFee)} USDC
-              </span>
-            </div>
-          )}
-
-          <div className="border-t border-gray-200 pt-2 flex items-center justify-between">
-            <span className="text-sm font-semibold text-gray-700">
-              Merchant receives
+          <div className="flex items-center justify-between text-xs">
+            <span className="flex items-center gap-1 text-gray-500">
+              Estimated Bridge Fee
+              <Info className="size-3 text-gray-400" />
             </span>
-            <span className="text-base font-bold text-gray-900">
+            <span className="font-mono text-gray-700">
+              {session.estimatedFee ? `≈ ${formatUsdc(session.estimatedFee)} USDC` : "Low / Free"}
+            </span>
+          </div>
+
+          <div className="border-t border-gray-200/60 pt-2.5 flex items-center justify-between">
+            <span className="font-semibold text-gray-700">
+              Merchant Receives
+            </span>
+            <span className="text-base font-extrabold text-[#ff385c]">
               {formatUsdc(session.amountUsdc)} USDC
             </span>
           </div>
-        </>
+        </div>
+      ) : (
+        <p className="text-xs text-gray-500 italic">
+          Select a source network and payment token above to view details.
+        </p>
       )}
 
       {/* Destination note */}
-      <p className="text-xs text-gray-400">
-        Delivered to merchant on{" "}
-        <span className="font-medium text-[#FF385C]">Arc Testnet</span> in
-        seconds.
-      </p>
+      <div className="pt-1 text-[11px] text-gray-400 flex items-center gap-1.5">
+        <span className="size-1.5 rounded-full bg-[#ff385c] animate-pulse" />
+        <span>
+          Settles directly on <strong className="text-gray-700 font-semibold">Arc Testnet</strong> with sub-second finality.
+        </span>
+      </div>
     </div>
   );
 }

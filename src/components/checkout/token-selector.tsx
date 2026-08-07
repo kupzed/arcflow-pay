@@ -43,51 +43,61 @@ export function TokenSelector({
     ? TOKENS_BY_CHAIN[selectedChain] ?? []
     : [];
 
+  const handleSelectChain = (chainSlug: SupportedSourceChain) => {
+    onChainChange(chainSlug);
+    setChainOpen(false);
+    // Auto reset or default token if current selected token is invalid for new chain
+    const validTokens = TOKENS_BY_CHAIN[chainSlug] ?? [];
+    if (!selectedToken || !validTokens.includes(selectedToken)) {
+      onTokenChange(validTokens[0] ?? "USDC");
+    }
+  };
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-3.5">
       {/* Chain Selector */}
       <div className="relative">
-        <label className="mb-1.5 block text-xs font-medium text-gray-500 uppercase tracking-wide">
-          Source Chain
+        <label className="mb-1.5 block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          1. Select Source Network
         </label>
         <button
           type="button"
           disabled={disabled}
-          onClick={() => setChainOpen((v) => !v)}
+          onClick={() => {
+            setChainOpen((v) => !v);
+            setTokenOpen(false);
+          }}
           className={cn(
-            "flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm transition-colors",
-            "hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#FF385C]/20",
-            disabled && "cursor-not-allowed opacity-60"
+            "flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm transition-all shadow-sm",
+            "hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ff385c]/20",
+            disabled && "cursor-not-allowed opacity-60 bg-gray-50"
           )}
         >
           {selectedChain ? (
             <NetworkBadge chain={selectedChain} size="sm" />
           ) : (
-            <span className="text-gray-400">Select a chain…</span>
+            <span className="text-gray-400">Select source chain…</span>
           )}
           <ChevronDown
             className={cn(
-              "size-4 text-gray-400 transition-transform",
-              chainOpen && "rotate-180"
+              "size-4 text-gray-400 transition-transform duration-200",
+              chainOpen && "rotate-180 text-gray-600"
             )}
           />
         </button>
 
         {chainOpen && (
-          <div className="absolute z-20 mt-1 w-full rounded-xl border border-gray-100 bg-white shadow-lg">
+          <div className="absolute left-0 right-0 z-30 mt-1.5 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl ring-1 ring-black/5 animate-in fade-in-50 zoom-in-95">
             {CHAINS.map((chain) => (
               <button
                 key={chain.slug}
                 type="button"
-                onClick={() => {
-                  onChainChange(chain.slug);
-                  setChainOpen(false);
-                }}
-                className="flex w-full items-center justify-between px-4 py-3 text-sm hover:bg-gray-50 first:rounded-t-xl last:rounded-b-xl"
+                onClick={() => handleSelectChain(chain.slug)}
+                className="flex w-full items-center justify-between px-4 py-3 text-sm hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0"
               >
                 <NetworkBadge chain={chain.slug} size="sm" />
                 {selectedChain === chain.slug && (
-                  <Check className="size-4 text-[#FF385C]" />
+                  <Check className="size-4 text-[#ff385c]" />
                 )}
               </button>
             ))}
@@ -97,32 +107,35 @@ export function TokenSelector({
 
       {/* Token Selector */}
       <div className="relative">
-        <label className="mb-1.5 block text-xs font-medium text-gray-500 uppercase tracking-wide">
-          Pay With
+        <label className="mb-1.5 block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          2. Select Payment Token
         </label>
         <button
           type="button"
           disabled={disabled || !selectedChain}
-          onClick={() => setTokenOpen((v) => !v)}
+          onClick={() => {
+            setTokenOpen((v) => !v);
+            setChainOpen(false);
+          }}
           className={cn(
-            "flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm transition-colors",
-            "hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#FF385C]/20",
-            (disabled || !selectedChain) && "cursor-not-allowed opacity-60"
+            "flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm transition-all shadow-sm",
+            "hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ff385c]/20",
+            (disabled || !selectedChain) && "cursor-not-allowed opacity-60 bg-gray-50"
           )}
         >
-          <span className={selectedToken ? "text-gray-900" : "text-gray-400"}>
-            {selectedToken ?? "Select a token…"}
+          <span className={selectedToken ? "font-semibold text-gray-900" : "text-gray-400"}>
+            {selectedToken ? `Pay with ${selectedToken}` : "Select a token…"}
           </span>
           <ChevronDown
             className={cn(
-              "size-4 text-gray-400 transition-transform",
-              tokenOpen && "rotate-180"
+              "size-4 text-gray-400 transition-transform duration-200",
+              tokenOpen && "rotate-180 text-gray-600"
             )}
           />
         </button>
 
         {tokenOpen && availableTokens.length > 0 && (
-          <div className="absolute z-20 mt-1 w-full rounded-xl border border-gray-100 bg-white shadow-lg">
+          <div className="absolute left-0 right-0 z-30 mt-1.5 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl ring-1 ring-black/5 animate-in fade-in-50 zoom-in-95">
             {availableTokens.map((token) => (
               <button
                 key={token}
@@ -131,11 +144,11 @@ export function TokenSelector({
                   onTokenChange(token);
                   setTokenOpen(false);
                 }}
-                className="flex w-full items-center justify-between px-4 py-3 text-sm hover:bg-gray-50 first:rounded-t-xl last:rounded-b-xl"
+                className="flex w-full items-center justify-between px-4 py-3 text-sm hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0"
               >
-                <span className="font-medium">{token}</span>
+                <span className="font-semibold text-gray-900">{token}</span>
                 {selectedToken === token && (
-                  <Check className="size-4 text-[#FF385C]" />
+                  <Check className="size-4 text-[#ff385c]" />
                 )}
               </button>
             ))}
