@@ -1,13 +1,12 @@
 import "server-only";
-import { environment } from "./environment";
 
 /**
  * Server-only environment variables.
  * This file must never be imported from client components.
+ *
+ * Note: Supabase credentials (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+ * are read directly in src/lib/supabase/server.ts to avoid circular imports.
  */
 export const serverEnvironment = {
-  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
-  // Re-export public vars for convenience in server contexts
-  supabaseUrl: environment.supabaseUrl,
-  supabaseAnonKey: environment.supabaseAnonKey,
+  // Add future server-only env vars here
 } as const;

@@ -56,9 +56,6 @@ importers:
       '@serwist/next':
         specifier: ^9.5.11
         version: 9.5.11(next@16.2.10(@babel/core@7.29.7)(@playwright/test@1.61.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
-      '@supabase/ssr':
-        specifier: ^0.10.3
-        version: 0.10.3(@supabase/supabase-js@2.110.7)
       '@supabase/supabase-js':
         specifier: ^2.105.4
         version: 2.110.7
@@ -2523,11 +2520,6 @@ packages:
   '@supabase/realtime-js@2.110.7':
     resolution: {integrity: sha512-AMtZjyFA2gsmjuxopPNS/sRznLQHG0Ht5x+ytTPTOh3vAcOTUlVRLx7gW4/CONNnbb3PKOkE+HmM35HOSbmomQ==}
     engines: {node: '>=22.0.0'}
-
-  '@supabase/ssr@0.10.3':
-    resolution: {integrity: sha512-ux2CJgX89h0Fz2lY7ZNafNG2SkXpyRc5dz77K9eKeBLPdtywQixKwIuetDeIViAJBp/buOUVmgj8PVesOklNpw==}
-    peerDependencies:
-      '@supabase/supabase-js': ^2.105.3
 
   '@supabase/storage-js@2.110.7':
     resolution: {integrity: sha512-2tcDE8cjEDy1uKxKavBpKQod1JdMV1jDXQag48TCa+kycmJOltc0yVabC0BUlhOwAl6WykXU2aOsH3ELMtZrmQ==}
@@ -10131,11 +10123,6 @@ snapshots:
     dependencies:
       '@supabase/phoenix': 0.4.5
       tslib: 2.8.1
-
-  '@supabase/ssr@0.10.3(@supabase/supabase-js@2.110.7)':
-    dependencies:
-      '@supabase/supabase-js': 2.110.7
-      cookie: 1.1.1
 
   '@supabase/storage-js@2.110.7':
     dependencies:

@@ -48,12 +48,6 @@ export default function MarketingLayout({
 
           {/* CTA */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="hidden text-sm font-medium text-[var(--color-body)] hover:text-[var(--color-ink)] sm:block"
-            >
-              Sign in
-            </Link>
             <WalletConnectButton />
           </div>
         </div>

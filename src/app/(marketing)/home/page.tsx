@@ -83,10 +83,10 @@ export default function HomePage() {
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/login"
+              href="/dashboard/overview"
               className="afp-btn-primary inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold text-white no-underline"
             >
-              Get Started
+              Launch Dashboard
               <ArrowRight className="size-4" />
             </Link>
             <DemoButton session={DEMO_SESSION} />
@@ -200,10 +200,10 @@ export default function HomePage() {
             minutes.
           </p>
           <Link
-            href="/signup"
+            href="/dashboard/overview"
             className="afp-btn-primary inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold text-white no-underline"
           >
-            Create Free Account
+            Connect Wallet & Start
             <ArrowRight className="size-4" />
           </Link>
         </div>

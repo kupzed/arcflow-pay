@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     const { sessionId, destTxHash, amountUsdc } = parse.data;
 
-    const supabase = await createAdminClient();
+    const supabase = createAdminClient();
 
     // Fetch session
     const { data: session, error: fetchError } = await supabase

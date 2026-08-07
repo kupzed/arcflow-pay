@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       Date.now() + expiryMinutes * 60 * 1000
     ).toISOString();
 
-    const supabase = await createAdminClient();
+    const supabase = createAdminClient();
 
     const { data, error } = await supabase
       .from("checkout_sessions")
